@@ -1,0 +1,51 @@
+{
+  "background_color": "#1b2a85",
+  "description": "AI-powered trading signals dashboard with technical analysis, AutoTrader, and MT5 integration.",
+  "dir": "auto",
+  "display": "fullscreen",
+  "name": "EA APEX",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "APEX",
+  "start_url": "/index.html",
+  "theme_color": "#2c179d",
+  "icons": [
+    {
+      "src": "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/766f1d10-6200-4304-a384-3ed1b718ae25/id-preview-c5c107d7--d50a742e-d4f1-4d23-8928-50fbdd213223.lovable.app-1777642082538.png",
+      "type": "image/png",
+      "sizes": "1920x1080",
+      "isSquare": false,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 1920,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://apextradesai.lovable.app/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "YRC",
+  "lang": "en",
+  "display_override": [
+    "minimal-ui",
+    "fullscreen",
+    "browser",
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "categories": [
+    "education"
+  ]
+}
