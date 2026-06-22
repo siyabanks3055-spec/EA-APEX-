@@ -30,6 +30,103 @@
             overflow: hidden;
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1b2a85 0%, #2c179d 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .install-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .install-option:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .install-option h3 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .install-option p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 0.7rem 1.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .install-btn {
+            background: #0099ff;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .install-btn:hover {
+            background: #0077cc;
+            transform: translateY(-2px);
+        }
+
         .iframe-container {
             width: 100%;
             height: 100vh;
@@ -42,10 +139,211 @@
             height: 100%;
             border: none;
         }
+
+        .install-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            color: #1b2a85;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 153, 255, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .install-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 153, 255, 0.6);
+        }
+
+        .step-list {
+            background: rgba(0, 153, 255, 0.05);
+            border-left: 3px solid #0099ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+        }
+
+        .step-list ol {
+            margin-left: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .step-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
+    <!-- Install Modal -->
+    <div id="installModal" class="modal">
+        <div class="modal-content">
+            <h2>📥 Install EA APEX</h2>
+            
+            <!-- PWA Option -->
+            <div class="install-option" onclick="installPWA()">
+                <h3>🌐 Progressive Web App (PWA)</h3>
+                <p>Fastest & easiest. Install directly from your browser as an app.</p>
+                <button class="install-btn">Install as PWA</button>
+            </div>
+
+            <!-- Android APK Option -->
+            <div class="install-option" onclick="showAPKInstructions()">
+                <h3>🤖 Android APK</h3>
+                <p>Download as standalone Android application (.apk file).</p>
+                <button class="install-btn">Get APK Instructions</button>
+            </div>
+
+            <!-- iOS Option -->
+            <div class="install-option" onclick="showIOSInstructions()">
+                <h3>🍎 iPhone/iPad (iOS)</h3>
+                <p>Add to home screen via Safari browser.</p>
+                <button class="install-btn">iOS Instructions</button>
+            </div>
+
+            <!-- Desktop Option -->
+            <div class="install-option" onclick="showDesktopInstructions()">
+                <h3>💻 Desktop</h3>
+                <p>Install as desktop application on Windows, Mac, or Linux.</p>
+                <button class="install-btn">Desktop Instructions</button>
+            </div>
+
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- APK Instructions Modal -->
+    <div id="apkModal" class="modal">
+        <div class="modal-content">
+            <h2>🤖 Android APK Installation</h2>
+            
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">Method 1: Using PWA to APK Converter</h3>
+            <div class="step-list">
+                <ol>
+                    <li><strong>Visit PWA to APK converter:</strong> <a href="https://www.pwabuilder.com" target="_blank" style="color: #00d4ff;">pwabuilder.com</a></li>
+                    <li><strong>Enter app URL:</strong> https://siyabanks3055-spec.github.io/EA-APEX-/</li>
+                    <li><strong>Click "Start"</strong> and fill in the details</li>
+                    <li><strong>Download the APK</strong> file to your phone</li>
+                    <li><strong>Open the APK</strong> and tap "Install"</li>
+                    <li><strong>Done!</strong> App will appear on your home screen</li>
+                </ol>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">Method 2: Using APKMaker</h3>
+            <div class="step-list">
+                <ol>
+                    <li><strong>Go to:</strong> <a href="https://app.webtoapp.tech" target="_blank" style="color: #00d4ff;">app.webtoapp.tech</a></li>
+                    <li><strong>Enter app URL:</strong> https://siyabanks3055-spec.github.io/EA-APEX-/</li>
+                    <li><strong>Add app name:</strong> EA APEX</li>
+                    <li><strong>Download APK</strong> to your Android device</li>
+                    <li><strong>Enable "Unknown Sources"** in Settings</li>
+                    <li><strong>Install the APK</strong></li>
+                </ol>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">⚠️ Important: Enable Installation from Unknown Sources</h3>
+            <div class="step-list">
+                <ol>
+                    <li>Go to <strong>Settings</strong></li>
+                    <li>Scroll to <strong>Security</strong></li>
+                    <li>Find <strong>"Unknown Sources"</strong> or <strong>"Install from Unknown Sources"</strong></li>
+                    <li>Toggle it <strong>ON</strong></li>
+                    <li>Now you can install APK files</li>
+                </ol>
+            </div>
+
+            <button class="install-btn" onclick="window.open('https://www.pwabuilder.com', '_blank')">Open PWA Builder</button>
+            <button class="close-btn" onclick="closeModal()">Back</button>
+        </div>
+    </div>
+
+    <!-- iOS Instructions Modal -->
+    <div id="iosModal" class="modal">
+        <div class="modal-content">
+            <h2>🍎 iPhone/iPad Installation</h2>
+            
+            <div class="step-list">
+                <ol>
+                    <li><strong>Open Safari</strong> browser on your iPhone/iPad</li>
+                    <li><strong>Go to:</strong> https://siyabanks3055-spec.github.io/EA-APEX-/</li>
+                    <li><strong>Wait</strong> for the app to fully load</li>
+                    <li><strong>Tap the Share button</strong> (bottom center, arrow icon)</li>
+                    <li><strong>Scroll down</strong> and tap <strong>"Add to Home Screen"</strong></li>
+                    <li><strong>Name it:</strong> "EA APEX" (or your preferred name)</li>
+                    <li><strong>Tap "Add"</strong> in the top right corner</li>
+                    <li><strong>Done!</strong> App now appears on your home screen</li>
+                </ol>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">💡 Tips:</h3>
+            <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                <li>Works just like a native iOS app</li>
+                <li>Appears in your app switcher</li>
+                <li>Can be customized with custom icon</li>
+                <li>Opens fullscreen without Safari UI</li>
+            </ul>
+
+            <button class="close-btn" onclick="closeModal()">Back</button>
+        </div>
+    </div>
+
+    <!-- Desktop Instructions Modal -->
+    <div id="desktopModal" class="modal">
+        <div class="modal-content">
+            <h2>💻 Desktop Installation</h2>
+            
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">Google Chrome / Chromium</h3>
+            <div class="step-list">
+                <ol>
+                    <li><strong>Visit:</strong> https://siyabanks3055-spec.github.io/EA-APEX-/</li>
+                    <li><strong>Look for the install icon</strong> in the address bar (looks like a box with arrow)</li>
+                    <li><strong>Click it</strong> and confirm installation</li>
+                    <li><strong>Done!</strong> Shortcut created on desktop/start menu</li>
+                </ol>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">Microsoft Edge</h3>
+            <div class="step-list">
+                <ol>
+                    <li><strong>Visit:</strong> https://siyabanks3055-spec.github.io/EA-APEX-/</li>
+                    <li><strong>Click the settings menu</strong> (⋯) in top right</li>
+                    <li><strong>Select "Apps"</strong> → <strong>"Install this site as an app"</strong></li>
+                    <li><strong>Click "Install"</strong></li>
+                    <li><strong>Done!</strong> App installed</li>
+                </ol>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 1rem 0 0.5rem;">Firefox</h3>
+            <div class="step-list">
+                <ol>
+                    <li><strong>Visit:</strong> https://siyabanks3055-spec.github.io/EA-APEX-/</li>
+                    <li><strong>Click the menu button</strong> (☰) in top right</li>
+                    <li><strong>Look for "Install EA APEX"</strong> option</li>
+                    <li><strong>Click and confirm</strong></li>
+                    <li><strong>Done!</strong> Desktop app created</li>
+                </ol>
+            </div>
+
+            <button class="close-btn" onclick="closeModal()">Back</button>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
     <iframe class="iframe-container" src="https://apextradesai.lovable.app/" title="EA APEX Trading Dashboard"></iframe>
+
+    <!-- Install Button FAB -->
+    <button class="install-fab" onclick="openModal()">⬇️</button>
 
     <script>
         // Service Worker Registration
@@ -54,6 +352,64 @@
                 .then(reg => console.log('Service Worker registered'))
                 .catch(err => console.log('Service Worker registration failed:', err));
         }
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function openModal() {
+            document.getElementById('installModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('installModal').classList.remove('show');
+            document.getElementById('apkModal').classList.remove('show');
+            document.getElementById('iosModal').classList.remove('show');
+            document.getElementById('desktopModal').classList.remove('show');
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('App installed');
+                    }
+                    deferredPrompt = null;
+                    closeModal();
+                });
+            } else {
+                alert('PWA installation is not available in your browser. Use the APK or PWA converter options instead.');
+            }
+        }
+
+        function showAPKInstructions() {
+            document.getElementById('installModal').classList.remove('show');
+            document.getElementById('apkModal').classList.add('show');
+        }
+
+        function showIOSInstructions() {
+            document.getElementById('installModal').classList.remove('show');
+            document.getElementById('iosModal').classList.add('show');
+        }
+
+        function showDesktopInstructions() {
+            document.getElementById('installModal').classList.remove('show');
+            document.getElementById('desktopModal').classList.add('show');
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
 
         console.log('%c⚡ EA APEX Trading Dashboard', 'font-size: 20px; color: #00d4ff; font-weight: bold;');
         console.log('%cPowered by Lovable & GitHub Pages', 'font-size: 14px; color: #0099ff;');
